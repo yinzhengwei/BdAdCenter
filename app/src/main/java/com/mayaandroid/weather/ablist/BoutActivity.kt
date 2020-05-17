@@ -15,7 +15,8 @@ import kotlinx.android.synthetic.main.b_layout.*
 
 class BoutActivity : AppCompatActivity(), InterstitialAdListener {
 
-    val adPlaceId = "7075404"
+//    val adPlaceId = "7075404"
+    val adPlaceId = "7076077"
 
     private var mInterAd: InterstitialAd? = null            // 插屏广告实例，支持单例模式
     private var mAdType = "interAd"         // 插屏广告的类型，Demo使用，避免重复创建广告实例

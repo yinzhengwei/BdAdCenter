@@ -21,16 +21,16 @@ public class MobadsApplication extends Application {
         try {
             // 初始化MSA SDK
             JLibrary.InitEntry(this);
-//            //获取OAID
-//            int sdkState = MdidSdkHelper.InitSdk(getApplicationContext(), true, new IIdentifierListener() {
-//                @Override
-//                public void OnSupport(boolean b, IdSupplier idSupplier) {
-//                    if (idSupplier != null) {
-//                        String oaid = idSupplier.getOAID();
-//                        Log.e("oaid","oaid=" + oaid);
-//                    }
-//                }
-//            });
+            //获取OAID
+            int sdkState = MdidSdkHelper.InitSdk(getApplicationContext(), true, new IIdentifierListener() {
+                @Override
+                public void OnSupport(boolean b, IdSupplier idSupplier) {
+                    if (idSupplier != null) {
+                        String oaid = idSupplier.getOAID();
+                        Log.e("oaid","oaid=" + oaid);
+                    }
+                }
+            });
 //            Log.e("mdidsdk","初始化" + sdkState);
         } catch (Throwable tr) {
             tr.printStackTrace();

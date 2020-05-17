@@ -3,20 +3,37 @@ package com.mayaandroid.weather
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
 import com.baidu.mobads.*
+import com.mayaandroid.weather.NetWorkUtils.getLocalIpAddress
 import com.mayaandroid.weather.ablist.AboutActivity
 import com.mayaandroid.weather.ablist.BoutActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.ArrayList
+import android.content.ContentResolver
+import android.content.Context
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
+
+    fun restartApplication() {
+        DemoSPUtils.list.forEach {
+            it.finish()
+        }
+        val intent = getPackageManager().getLaunchIntentForPackage(getPackageName())
+        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        android.os.Process.killProcess(android.os.Process.myPid())
+    }
 
 //    override fun onStart() {
 //        super.onStart()
@@ -25,30 +42,35 @@ class MainActivity : AppCompatActivity() {
 //            it.finish()
 //        }
 //
-//        if (isFirst) {
-//            try {
-//                btn_a.postDelayed({
-//                    //点击
-//                    Runtime.getRuntime().exec("input tap " + 360 + " " + 320)
-//                }, 2000)
-//                btn_a.postDelayed({
-//                    //点击
-//                    Runtime.getRuntime().exec("input tap " + 300 + " " + 640)
-//                }, 7000)
-//                btn_a.postDelayed({
-//                    //点击
-//                    Runtime.getRuntime().exec("input tap " + 450 + " " + 500)
-//                }, 12000)
-//                btn_a.postDelayed({
-//                    //滑动
-//                    Runtime.getRuntime()
-//                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
-//                }, 32000)
-//                btn_a.postDelayed({
-//                    //滑动
-//                    Runtime.getRuntime()
-//                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
-//                }, 33000)
+////        if (isFirst) {
+//        try {
+//            btn_a.postDelayed({
+//                //点击
+//                Runtime.getRuntime().exec("input tap " + 360 + " " + 320)
+//            }, 2000)
+//            btn_a.postDelayed({
+//                //点击
+//                Runtime.getRuntime().exec("input tap " + 300 + " " + 340)
+//            }, 7000)
+//            btn_a.postDelayed({
+//                //点击
+//                Runtime.getRuntime().exec("input tap " + 450 + " " + 400)
+//            }, 11000)
+//            btn_a.postDelayed({
+//                //滑动
+//                Runtime.getRuntime()
+//                    .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
+//            }, 22000)
+//            btn_a.postDelayed({
+//                //滑动
+//                Runtime.getRuntime()
+//                    .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
+//            }, 23000)
+//            btn_a.postDelayed({
+//                //滑动
+//                Runtime.getRuntime()
+//                    .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
+//            }, 24000)
 ////                btn_a.postDelayed({
 ////                    //返回
 ////                    Runtime.getRuntime().exec("input keyevent 4")
@@ -72,79 +94,80 @@ class MainActivity : AppCompatActivity() {
 ////                    Runtime.getRuntime()
 ////                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
 ////                }, 59000)
-//                btn_a.postDelayed({
+//            btn_a.postDelayed({
 //
-//                    isFirst = false
-//                    //返回
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                    //返回
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                }, 45000)
-//                btn_a.postDelayed({
-//                    DemoSPUtils.list.forEach {
-//                        it.finish()
-//                    }
-//                    DemoSPUtils.list.clear()
-//                }, 45100)
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        } else {
-//            try {
-//                btn_a.postDelayed({
-//                    //点击
-//                    Runtime.getRuntime().exec("input tap " + 410 + " " + 470)
-//                }, 2000)
-//                btn_a.postDelayed({
-//                    //点击
-//                    Runtime.getRuntime().exec("input tap " + 560 + " " + 920)
-//                }, 6000)
-//                btn_a.postDelayed({
-//                    //点击
-//                    Runtime.getRuntime().exec("input tap " + 510 + " " + 440)
-//                }, 12000)
-//                btn_a.postDelayed({
-//                    //滑动
-//                    Runtime.getRuntime()
-//                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
-//                }, 27000)
-//                btn_a.postDelayed({
-//                    //滑动
-//                    Runtime.getRuntime()
-//                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
-//                }, 28000)
-//                btn_a.postDelayed({
-//
-//                    isFirst = true
-//                    //返回
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                    //返回
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                    //返回
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                    Runtime.getRuntime().exec("input keyevent 4")
-//                }, 31000)
-////                btn_a.postDelayed({
-////                    //返回
-////                    Runtime.getRuntime().exec("input keyevent 4")
-////                }, 32000)
-////                btn_a.postDelayed({
-////                    //返回
-////                    Runtime.getRuntime().exec("input keyevent 4")
-////                }, 33000)
-//                btn_a.postDelayed({
-////                    //返回
-////                    Runtime.getRuntime().exec("input keyevent 4")
-//                    DemoSPUtils.list.forEach {
-//                        it.finish()
-//                    }
-//                    DemoSPUtils.list.clear()
-//                }, 31100)
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
+////                isFirst = false
+////                //返回
+////                Runtime.getRuntime().exec("input keyevent 4")
+////                //返回
+////                Runtime.getRuntime().exec("input keyevent 4")
+////                Runtime.getRuntime().exec("input keyevent 4")
+//                restartApplication()
+//            }, 32000)
+////            btn_a.postDelayed({
+////                DemoSPUtils.list.forEach {
+////                    it.finish()
+////                }
+////                DemoSPUtils.list.clear()
+////            }, 30100)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
 //        }
+////        } else {
+////            try {
+////                btn_a.postDelayed({
+////                    //点击
+////                    Runtime.getRuntime().exec("input tap " + 410 + " " + 470)
+////                }, 2000)
+////                btn_a.postDelayed({
+////                    //点击
+////                    Runtime.getRuntime().exec("input tap " + 560 + " " + 920)
+////                }, 6000)
+////                btn_a.postDelayed({
+////                    //点击
+////                    Runtime.getRuntime().exec("input tap " + 510 + " " + 440)
+////                }, 12000)
+////                btn_a.postDelayed({
+////                    //滑动
+////                    Runtime.getRuntime()
+////                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
+////                }, 27000)
+////                btn_a.postDelayed({
+////                    //滑动
+////                    Runtime.getRuntime()
+////                        .exec("input swipe " + 200 + " " + 1000 + " " + 200 + " " + 200)
+////                }, 28000)
+////                btn_a.postDelayed({
+////
+////                    isFirst = true
+////                    //返回
+////                    Runtime.getRuntime().exec("input keyevent 4")
+////                    //返回
+////                    Runtime.getRuntime().exec("input keyevent 4")
+////                    //返回
+////                    Runtime.getRuntime().exec("input keyevent 4")
+////                    Runtime.getRuntime().exec("input keyevent 4")
+////                }, 31000)
+//////                btn_a.postDelayed({
+//////                    //返回
+//////                    Runtime.getRuntime().exec("input keyevent 4")
+//////                }, 32000)
+//////                btn_a.postDelayed({
+//////                    //返回
+//////                    Runtime.getRuntime().exec("input keyevent 4")
+//////                }, 33000)
+////                btn_a.postDelayed({
+//////                    //返回
+//////                    Runtime.getRuntime().exec("input keyevent 4")
+////                    DemoSPUtils.list.forEach {
+////                        it.finish()
+////                    }
+////                    DemoSPUtils.list.clear()
+////                }, 31100)
+////            } catch (e: Exception) {
+////                e.printStackTrace()
+////            }
+////        }
 //    }
 
     override fun onBackPressed() {
@@ -152,7 +175,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -163,6 +186,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        val cr = this.contentResolver
+//        Settings.System.putString(cr, Settings.System.WIFI_STATIC_IP, "192.168.1.103");
+
+        tv_ip.text =  getLocalIpAddress(this)
 
 //        val adPlaceId = "2015351" // 重要：请填上您的广告位ID，代码位错误会导致无法请求到广告
 //        // 如果开屏需要支持vr,needRequestVRAd(true)
